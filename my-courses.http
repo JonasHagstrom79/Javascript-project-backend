@@ -1,0 +1,167 @@
+@server = http://localhost
+@port = 3000
+@resource = api
+@url = {{server}}:{{port}}/{{resource}}
+
+###############################################
+
+// Test: Get all miun courses
+// Expected HTTP response status code: 200
+// Expected response: an array (json) with all courses (including subject for each course)
+// [{}, {}, ...]
+GET {{url}}/persons
+
+###############################################
+
+// Test: Get a miun course that exists
+// Expected HTTP response status code: 200
+// Expected response: a course object (json) with course data, including subject
+// {"courseCode": "DT190G","subjectCode": "DTA","level": "GR","progression": "B","name": "Javascriptbaserad webbutveckling","points": 7.5,"institutionCode": "DSV","subject": "Datateknik"}
+GET {{url}}/persons/12345
+
+###############################################
+
+// Test: Get a miun course that does not exists
+// Expected HTTP response status code: 200
+// Expected response: an empty object (json)
+// {}
+GET {{url}}/courses/DT000G
+
+###############################################
+
+// Test: Get all "my courses"
+// Expected HTTP response status code: 200
+// Expected response: an array (json) with all my courses and data from corresponding miun courses
+// [{}, {}, ...]
+GET {{url}}/courses/my
+
+###############################################
+
+// Test: Get a my course that exists
+// Expected HTTP response status code: 200
+// Expected response: a my course object (json) with status and all data from corresponding miun course
+// {"courseCode": "DT190G", "grade": "-", "subjectCode": "DTA","level": "GR","progression": "B","name": "Javascriptbaserad webbutveckling","points": 7.5,"institutionCode": "DSV","subject": "Datateknik"}
+GET {{url}}/courses/my/DT190G
+
+###############################################
+
+// Test: Get a my course that does not exists
+// Expected HTTP response status code: 200
+// Expected response: an empty object (json)
+// {}
+GET {{url}}/courses/my/DT000G
+
+###############################################
+
+// Test: Post (add) a my course that is not a Miun course
+// Expected HTTP response status code: 404
+// Expected response: an object (json) with an error message stating that the course does not exist
+// {"error":"an_error_message"}
+POST {{url}}/courses/my HTTP/1.1
+content-type: application/json
+
+{
+   "courseCode": "DT000G",
+   "grade": "a"
+}
+
+###############################################
+
+// Test: Post (add) a my course that is a Miun course db AND NOT already in 'my courses'
+// Expected HTTP response status code: 201
+// Expected response: an object (json) with the added course
+// {"courseCode": "DT005U", "grade": "f", ..., "subject": "Datateknik"}
+POST {{url}}/courses/my HTTP/1.1
+content-type: application/json
+
+{
+   "courseCode": "DT005U",
+   "grade": "f"
+}
+
+###############################################
+
+// Test: Post (add) a my course that is a Miun course db AND already in 'my courses'
+// Expected HTTP response status code: 409
+// Expected response: an object (json) with an error message stating that the my course already exist
+// {"error":"an_error_message"}
+POST {{url}}/courses/my HTTP/1.1
+content-type: application/json
+
+{
+   "courseCode": "DT005U",
+   "grade": "b"
+}
+
+###############################################
+
+// Test: Put (update) a my course that exists
+// Expected HTTP response status code: 200
+// Expected response: an object (json) with the updated course
+PUT {{url}}/courses/my/DT005U HTTP/1.1
+content-type: application/json
+
+{
+   "grade": "b"
+}
+
+###############################################
+
+// Test: Put (update) a my course that does not exists
+// Expected HTTP response status code: 404
+// Expected response: an object (json) with an error message stating that the my course does not exist
+// {"error":"an_error_message"}
+PUT {{url}}/courses/my/DT000G HTTP/1.1
+content-type: application/json
+
+{
+   "grade": "q"
+}
+
+###############################################
+
+// Test: Delete a my course that does not exists
+// Expected HTTP response status code: 404
+// Expected response: an object (json) with an error message stating that the my course does not exist
+// {"error":"an_error_message"}
+DELETE {{url}}/courses/my/DT000G
+
+###############################################
+
+// Test: Delete a my course that exists
+// Expected HTTP response status code: 200
+// Expected response: an object (json) with the deleted course
+// {"courseCode": "DT005U", "grade": "b", ..., "subject": "Datateknik"}
+DELETE {{url}}/courses/my/DT005U
+
+###############################################
+
+// Test: Get all subjects
+// Expected HTTP response status code: 200
+// Expected response: an array (json) with all subjects
+// [{}, {}, ...]
+GET {{url}}/subjects
+
+###############################################
+
+// Test: Get a subject that exists
+// Expected HTTP response status code: 200
+// Expected response: a subject object (json) with subject data
+// {"subjectCode": "DTA","subject": "Datateknik","preamble": ".....", "bodyText": "....","language": "..."}
+GET {{url}}/subjects/dta
+
+###############################################
+
+// Test: Get a subject that does not exists
+// Expected HTTP response status code: 200
+// Expected response: an empty object (json)
+// {}
+GET {{url}}/subjects/abc
+
+###############################################
+
+// Test: Get all grades for the grade scale named fa (grades F-A).
+// Expected HTTP response status code: 200
+// Expected response: an array (json) with the grades in the fa grade scale
+// ["-", "fx", "f", "e", "d", "c", "b", "a"]
+GET {{url}}/grades/fa
