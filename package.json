@@ -1,0 +1,23 @@
+{
+  "name": "caha1906_project_backend_dt190g",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Jonas_Hagstrom@bitbucket.org/miun_dt190g/caha1906_project_backend_dt190g.git"
+  },
+  "author": "Jonas Hagström <caha1906@student.miun.se>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/miun_dt190g/caha1906_project_backend_dt190g/issues"
+  },
+  "homepage": "https://bitbucket.org/miun_dt190g/caha1906_project_backend_dt190g#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
