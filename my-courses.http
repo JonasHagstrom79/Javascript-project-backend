@@ -17,7 +17,7 @@ GET {{url}}/persons
 // Expected HTTP response status code: 200
 // Expected response: a course object (json) with course data, including subject
 // {"courseCode": "DT190G","subjectCode": "DTA","level": "GR","progression": "B","name": "Javascriptbaserad webbutveckling","points": 7.5,"institutionCode": "DSV","subject": "Datateknik"}
-GET {{url}}/persons/12345
+GET {{url}}/persons/1
 
 ###############################################
 
@@ -25,7 +25,7 @@ GET {{url}}/persons/12345
 // Expected HTTP response status code: 200
 // Expected response: an empty object (json)
 // {}
-GET {{url}}/courses/DT000G
+GET {{url}}/persons/99
 
 ###############################################
 
@@ -57,12 +57,13 @@ GET {{url}}/courses/my/DT000G
 // Expected HTTP response status code: 404
 // Expected response: an object (json) with an error message stating that the course does not exist
 // {"error":"an_error_message"}
-POST {{url}}/courses/my HTTP/1.1
+POST {{url}}/persons HTTP/1.1
 content-type: application/json
 
-{
-   "courseCode": "DT000G",
-   "grade": "a"
+{   
+   "firstName": "Lasse",
+   "surName": "Larsson",
+  
 }
 
 ###############################################
@@ -71,12 +72,15 @@ content-type: application/json
 // Expected HTTP response status code: 201
 // Expected response: an object (json) with the added course
 // {"courseCode": "DT005U", "grade": "f", ..., "subject": "Datateknik"}
-POST {{url}}/courses/my HTTP/1.1
+POST {{url}}/persons HTTP/1.1
 content-type: application/json
 
 {
-   "courseCode": "DT005U",
-   "grade": "f"
+   "firstName": "Lasse",
+   "surName": "Larsson",
+   "address": "Vasavägen",
+   "socialSecurityNumber": "99",
+   "phone": "073-1234567"
 }
 
 ###############################################
@@ -98,11 +102,11 @@ content-type: application/json
 // Test: Put (update) a my course that exists
 // Expected HTTP response status code: 200
 // Expected response: an object (json) with the updated course
-PUT {{url}}/courses/my/DT005U HTTP/1.1
+PUT {{url}}/persons/1 HTTP/1.1
 content-type: application/json
 
 {
-   "grade": "b"
+   "phone": "070-1234567"
 }
 
 ###############################################
@@ -111,7 +115,7 @@ content-type: application/json
 // Expected HTTP response status code: 404
 // Expected response: an object (json) with an error message stating that the my course does not exist
 // {"error":"an_error_message"}
-PUT {{url}}/courses/my/DT000G HTTP/1.1
+PUT {{url}}/persons/99 HTTP/1.1
 content-type: application/json
 
 {
