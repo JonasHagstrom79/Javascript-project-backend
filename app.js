@@ -35,6 +35,7 @@ var file = "person-db.json";
 var socialSecurityNumber;
 var phone;
 var persondb;
+var persons;
 
 /**
  * Reads a json-file
@@ -56,6 +57,16 @@ function saveFile() {
     });
 };
 
+/**
+ * Checks if a string contains special chars
+ * @param {*} str 
+ * @returns boolean
+ */
+function containsSpecialChars(str) {
+    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    return specialChars.test(str);
+}
+
 // Define a route handler for GET requests to the web root
 // TODO: In lab 1, remove before submission
 app.get('/', function(req, res) {
@@ -76,7 +87,7 @@ app.get('/api/persons/:socialSecurityNumber', function(req, res) {
     // Gets social security number
     var socialSecurityNumber = req.params.socialSecurityNumber
 
-    // Inir JSON object
+    // Init JSON object
     var send = {}
 
     for (person of persondb.persons) {
@@ -97,7 +108,7 @@ app.get('/api/persons/:socialSecurityNumber', function(req, res) {
 });
 
 // Add a person
-app.post('/api/persons', function(req, res) { //TODO: HERE!!
+app.post('/api/persons', function(req, res) { 
 
     // Create a new Person
     var newPerson = {
@@ -108,12 +119,11 @@ app.post('/api/persons', function(req, res) { //TODO: HERE!!
         phone : req.body.phone
     };
 
-    // Check if person already exists
-    
+    // Check if person already exists    
     for (person of persondb.persons) {
 
         if (newPerson.socialSecurityNumber == person.socialSecurityNumber) {
-            
+            // Return status and result
             res.status(409).json(
                 {error: "Person already exists"}
             );
@@ -121,19 +131,14 @@ app.post('/api/persons', function(req, res) { //TODO: HERE!!
         }
 
     }
+    // If person doesnt exist
+    persondb.persons.push(newPerson);
+    // Save file
+    saveFile();
+    // Send status and return result
+    res.status(201).json(newPerson);
+    return res.json();   
     
-    /** 
-    for (myCourse of miundb.myCourses) {
-
-        if(newMyCourse.courseCode == myCourse.courseCode) {
-            // Send error message
-            res.status(409).json(
-                {error : "Course already exist in MyCourses"} 
-            );
-            return res.json();
-        }
-    };
-    */
 });
 
 // Update phone number
@@ -141,12 +146,17 @@ app.put('/api/persons/:socialSecurityNumber', function(req, res) {
 
     // Gets social security number
     var socialSecurityNumber = req.params.socialSecurityNumber    
-    //var phone = "";
+    
     for (person of persondb.persons) {
 
         // If in person-db
         if (person.socialSecurityNumber == socialSecurityNumber) {
-           // Update grade
+           
+            //  var phone = req.body.phone;
+            // TODO: logic for checking phone number?
+            //  phone
+           
+            // Update phone number
            person.phone = req.body.phone;
                       
            //Saves the file
@@ -157,53 +167,45 @@ app.put('/api/persons/:socialSecurityNumber', function(req, res) {
            return res.json();
         };
        
-    };    
+    };
 
-   // If not in person-db return error msg 404
-   for (person of persondb.persons) {
-       
-       if (person.socialSecurityNumber != socialSecurityNumber) {
-            res.status(404).json(
-                {error : "Persson doesnt exist"} 
-               );
-           return res.json();
-       };
-   };         
+    // If not in person-db return error msg 404   
+    res.status(404).json(
+        {error : "Persson doesnt exist"} 
+    );
+    
+    return res.json();   
    
 });
-
 
 // Delete person
 app.delete('/api/persons/:socialSecurityNumber', function(req, res) {
 
     // Get the socialSecurityNumber for the person to be deleted
     var socialSecurityNumber = req.params.socialSecurityNumber;
+    // Get the persons from database
+    var persons = persondb.persons
     
-    /** 
-    // If in myCourses
-    for(var i=0; i<myCourses.length; i++) {
-        if(myCourses[i].courseCode == code) {
-            course = myCourses[i];
-
-            // Removes the course
-            myCourses.splice(i, 1);
-
-            // saves the file and return course
+    for (var i=0; i<persons.length; i++) {
+        // If person is found
+        if(persons[i].socialSecurityNumber == socialSecurityNumber) {
+            
+            person = persons[i];
+            // Remove person
+            persons.splice(i, 1);
+            // Save changes to file
             saveFile();
-            res.status(200).json(course);
+            // Send status and return result
+            res.status(200).json(person);
             return res.json();
-        }        
-    }    
+        }
+    }
 
-    // If not in myCourse return error msg 404
-    for (course of miundb.myCourses) {
-        
-        if (course.courseCode != code) {
-             res.status(404).json(
-                 {error : "Course doesnt exist in MyCourses"} 
-                );
-            return res.json();
-        };
-    }; 
-    */
+    // If not in person-db return error msg 404 
+    res.status(404).json(
+        {error : "Person doesnt exist"} 
+    );
+
+    return res.json();
+
 });

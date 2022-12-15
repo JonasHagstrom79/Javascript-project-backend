@@ -106,7 +106,7 @@ PUT {{url}}/persons/1 HTTP/1.1
 content-type: application/json
 
 {
-   "phone": "070-1234567"
+   "phone": "070-1234561"
 }
 
 ###############################################
@@ -119,7 +119,7 @@ PUT {{url}}/persons/99 HTTP/1.1
 content-type: application/json
 
 {
-   "grade": "q"
+   "phone": "070-1234561"
 }
 
 ###############################################
@@ -136,7 +136,7 @@ DELETE {{url}}/courses/my/DT000G
 // Expected HTTP response status code: 200
 // Expected response: an object (json) with the deleted course
 // {"courseCode": "DT005U", "grade": "b", ..., "subject": "Datateknik"}
-DELETE {{url}}/courses/my/DT005U
+DELETE {{url}}/persons/15
 
 ###############################################
 
