@@ -36,6 +36,8 @@ var socialSecurityNumber;
 var phone;
 var persondb;
 var persons;
+var firstName;
+var surName;
 
 /**
  * Reads a json-file
@@ -62,10 +64,18 @@ function saveFile() {
  * @param {*} str 
  * @returns boolean
  */
-function containsSpecialChars(str) {
-    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    return specialChars.test(str);
+function containsSpecialChars(str) {    
+    return /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(str);
 }
+
+/**
+ * Check if string contains only digits
+ * @param {*} str 
+ * @returns boolean
+ */
+function containsOnlyNumbers(str) {
+    return /^\d+$/.test(str);
+  }
 
 // Define a route handler for GET requests to the web root
 // TODO: In lab 1, remove before submission
@@ -76,9 +86,7 @@ app.get('/', function(req, res) {
 // Returns all persons
 app.get('/api/persons/', function(req, res) {
 
-    res.send(persondb.persons);
-
-    //res.send({"message":"Hämtar alla personer från databasen"});
+    res.send(persondb.persons);    
 
 });
 
@@ -110,6 +118,31 @@ app.get('/api/persons/:socialSecurityNumber', function(req, res) {
 // Add a person
 app.post('/api/persons', function(req, res) { 
 
+    var firstName = req.body.firstName;
+    var surName = req.body.surName;
+    var socialSecurityNumber = req.body.socialSecurityNumber;
+   
+    if (containsSpecialChars(firstName)) {
+        res.status(403).json(
+            {error: "Only use A-Ö chars"}
+        );
+        return res.json();
+    };
+
+    if (containsSpecialChars(surName)) {
+        res.status(403).json(
+            {error: "Only use A-Ö chars"}
+        );
+        return res.json();
+    };
+
+    if (!containsOnlyNumbers(socialSecurityNumber)) {
+        res.status(403).json(
+            {error: "Only use 0-9 digits"}
+        );
+        return res.json();
+    };
+
     // Create a new Person
     var newPerson = {
         firstName : req.body.firstName,
@@ -118,6 +151,7 @@ app.post('/api/persons', function(req, res) {
         socialSecurityNumber : req.body.socialSecurityNumber,
         phone : req.body.phone
     };
+
 
     // Check if person already exists    
     for (person of persondb.persons) {

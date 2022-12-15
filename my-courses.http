@@ -76,11 +76,11 @@ POST {{url}}/persons HTTP/1.1
 content-type: application/json
 
 {
-   "firstName": "Lasse",
-   "surName": "Larsson",
-   "address": "Vasavägen",
-   "socialSecurityNumber": "99",
-   "phone": "073-1234567"
+   "firstName": "Nils",
+   "surName": "Svensson",
+   "address": "Lagerlundavägen",
+   "socialSecurityNumber": "16",
+   "phone": "073-9876543"
 }
 
 ###############################################
