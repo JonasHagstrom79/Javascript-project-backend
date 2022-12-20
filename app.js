@@ -90,6 +90,7 @@ app.get('/api/persons/', function(req, res) {
 
 });
 
+// Return a specific person
 app.get('/api/persons/:socialSecurityNumber', function(req, res) {
 
     // Gets social security number
@@ -121,6 +122,27 @@ app.post('/api/persons', function(req, res) {
     var firstName = req.body.firstName;
     var surName = req.body.surName;
     var socialSecurityNumber = req.body.socialSecurityNumber;
+
+    if (!firstName) {
+        res.status(403).json(
+            {error: "Please insert first name"}
+        );
+        return res.json();
+    }
+
+    if (!surName) {
+        res.status(403).json(
+            {error: "Please insert sur name"}
+        );
+        return res.json();
+    }
+
+    if (!socialSecurityNumber) {
+        res.status(403).json(
+            {error: "Please insert social security number"}
+        );
+        return res.json();
+    }
    
     if (containsSpecialChars(firstName)) {
         res.status(403).json(

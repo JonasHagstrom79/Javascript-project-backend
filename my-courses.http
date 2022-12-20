@@ -79,7 +79,7 @@ content-type: application/json
    "firstName": "Nils",
    "surName": "Svensson",
    "address": "Lagerlundavägen",
-   "socialSecurityNumber": "16",
+   "socialSecurityNumber": "6601161234",
    "phone": "073-9876543"
 }
 
