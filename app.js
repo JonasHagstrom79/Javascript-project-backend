@@ -38,6 +38,7 @@ var persondb;
 var persons;
 var firstName;
 var surName;
+var person;
 
 /**
  * Reads a json-file
@@ -93,25 +94,28 @@ app.get('/api/persons/', function(req, res) {
 // Return a specific person
 app.get('/api/persons/:socialSecurityNumber', function(req, res) {
 
-    // Gets social security number
+    // Gets social security number //:5
     var socialSecurityNumber = req.params.socialSecurityNumber
 
-    // Init JSON object
-    var send = {}
+    // Init JSON object    
+    let send = {};
 
-    for (person of persondb.persons) {
+    for (person of persondb.persons) { //TODO:Person doesnt get sent to frontend
 
-        if (person.socialSecurityNumber == socialSecurityNumber) {
+        if (":"+person.socialSecurityNumber == socialSecurityNumber) {
             
             send = person;
-
-        } else {
             
-            send;
-
+        } 
+        else {
+            
+        //     send;
+            console.log(send)
+            console.log("else-statement")
         };
     };
-    
+    //console.log(send)
+    console.log("else-statement")
     res.send(send);
     
 });

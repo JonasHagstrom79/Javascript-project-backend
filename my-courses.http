@@ -17,7 +17,7 @@ GET {{url}}/persons
 // Expected HTTP response status code: 200
 // Expected response: a course object (json) with course data, including subject
 // {"courseCode": "DT190G","subjectCode": "DTA","level": "GR","progression": "B","name": "Javascriptbaserad webbutveckling","points": 7.5,"institutionCode": "DSV","subject": "Datateknik"}
-GET {{url}}/persons/1
+GET {{url}}/persons/2
 
 ###############################################
 
@@ -25,7 +25,7 @@ GET {{url}}/persons/1
 // Expected HTTP response status code: 200
 // Expected response: an empty object (json)
 // {}
-GET {{url}}/persons/99
+GET {{url}}/persons/5508081234
 
 ###############################################
 
