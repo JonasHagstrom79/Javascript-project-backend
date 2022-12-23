@@ -164,7 +164,7 @@ app.post('/api/persons', function(req, res) {
 
     if (!containsOnlyNumbers(socialSecurityNumber)) {
         res.status(403).json(
-            {error: "Only use 0-9 digits"}
+            {error: "Only use 0-9 digits, example: 195606129876"}
         );
         return res.json();
     };
