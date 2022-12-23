@@ -25,7 +25,7 @@ GET {{url}}/persons/2
 // Expected HTTP response status code: 200
 // Expected response: an empty object (json)
 // {}
-GET {{url}}/persons/5508081234
+GET {{url}}/persons/55080812341
 
 ###############################################
 
@@ -102,7 +102,7 @@ content-type: application/json
 // Test: Put (update) a my course that exists
 // Expected HTTP response status code: 200
 // Expected response: an object (json) with the updated course
-PUT {{url}}/persons/1 HTTP/1.1
+PUT {{url}}/persons/0303031234 HTTP/1.1
 content-type: application/json
 
 {

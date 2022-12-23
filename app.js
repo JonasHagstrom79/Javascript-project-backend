@@ -101,18 +101,19 @@ app.get('/api/persons/:socialSecurityNumber', function(req, res) {
     let send = {};
 
     for (person of persondb.persons) { //TODO:Person doesnt get sent to frontend
-
+        //if (":"+person.socialSecurityNumber == socialSecurityNumber) {
         if (":"+person.socialSecurityNumber == socialSecurityNumber) {
             
             send = person;
+            break;
             
         } 
-        else {
+        // else {
             
-        //     send;
-            console.log(send)
-            console.log("else-statement")
-        };
+        // //     send;
+        //     console.log(send)
+        //     console.log("else-statement")
+        // };
     };
     //console.log(send)
     console.log("else-statement")
@@ -126,6 +127,8 @@ app.post('/api/persons', function(req, res) {
     var firstName = req.body.firstName;
     var surName = req.body.surName;
     var socialSecurityNumber = req.body.socialSecurityNumber;
+    var phone = req.body.phone
+
 
     if (!firstName) {
         res.status(403).json(
@@ -169,13 +172,16 @@ app.post('/api/persons', function(req, res) {
         return res.json();
     };
 
+    // Formats the phone number
+    phone = formatPhoneNumber(phone);
+
     // Create a new Person
     var newPerson = {
-        firstName : req.body.firstName,
-        surName : req.body.surName,
+        firstName, //: req.body.firstName,
+        surName, //: req.body.surName,
         address : req.body.address,
-        socialSecurityNumber : req.body.socialSecurityNumber,
-        phone : req.body.phone
+        socialSecurityNumber,// : req.body.socialSecurityNumber,
+        phone //: req.body.phone
     };
 
 
@@ -201,7 +207,7 @@ app.post('/api/persons', function(req, res) {
     
 });
 
-// Update phone number
+// Update a person
 app.put('/api/persons/:socialSecurityNumber', function(req, res) {
 
     // Gets social security number
@@ -216,8 +222,12 @@ app.put('/api/persons/:socialSecurityNumber', function(req, res) {
             // TODO: logic for checking phone number?
             //  phone
            
-            // Update phone number
-           person.phone = req.body.phone;
+            // Update the fields if necessary
+            person.firstName = req.body.firstName,
+            person.surName = req.body.surName,
+            person.address = req.body.address,
+            person.socialSecurityNumber = req.body.socialSecurityNumber,
+            person.phone = req.body.phone
                       
            //Saves the file
            saveFile(); 
@@ -269,3 +279,22 @@ app.delete('/api/persons/:socialSecurityNumber', function(req, res) {
     return res.json();
 
 });
+
+/**
+ * Formatts the phone number
+ * @param {*} input Phone number to be formatted
+ * @returns phone number
+ */
+function formatPhoneNumber(input) {
+
+    // Remove all non-numeric characters from the input
+    input = input.replace(/\D/g,'');    
+  
+    // Split the input into the area code, first 3 digits, and last 4 digits
+    let areaCode = input.slice(0, 3);
+    let firstThree = input.slice(3, 6);
+    let lastFour = input.slice(6);
+  
+    // Return the formatted phone number
+    return areaCode + '-' + firstThree + ' ' + lastFour;
+}
