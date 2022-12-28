@@ -32,13 +32,13 @@ app.listen(port, function() {
 var file = "person-db.json";
 
 // Declaring variables
-var socialSecurityNumber;
+let socialSecurityNumber;
 var phone;
-var persondb;
+let persondb;
 var persons;
 var firstName;
 var surName;
-var person;
+let person;
 
 /**
  * Reads a json-file
@@ -93,10 +93,11 @@ app.get('/api/persons/', function(req, res) {
 
 // Return a specific person
 app.get('/api/persons/:socialSecurityNumber', function(req, res) {
-
+    //socialSecurityNumber
     // Gets social security number //:5
-    var socialSecurityNumber = req.params.socialSecurityNumber
-
+    let socialSecurityNumber = req.params.socialSecurityNumber;
+    // Get the persons from database    
+    console.log("SSNUM "+socialSecurityNumber) //TODO:remove!
     // Init JSON object    
     let send = {};
 
@@ -116,7 +117,7 @@ app.get('/api/persons/:socialSecurityNumber', function(req, res) {
         // };
     };
     //console.log(send)
-    console.log("else-statement")
+    console.dir("else-statement " +send.firstName)
     res.send(send);
     
 });
