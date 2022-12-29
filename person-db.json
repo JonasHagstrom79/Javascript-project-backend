@@ -104,6 +104,13 @@
       "address": "Fågelgatan 13",
       "socialSecurityNumber": "0303031234",
       "phone": "075-565 6565"
+    },
+    {
+      "firstName": "Bertil",
+      "surName": "Bertilsson",
+      "address": "Strandvägen 10",
+      "socialSecurityNumber": "6201011213",
+      "phone": "079-654 2389"
     }
   ]
 }
