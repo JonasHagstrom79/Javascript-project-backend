@@ -33,7 +33,7 @@ app.listen(port, function() {
 });
 
 // Read from file
-var file = "person-db.json";
+const file = "person-db.json";
 
 // Declaring variables
 let persondb;
@@ -197,6 +197,7 @@ app.post('/api/persons', function(req, res) {
         }
 
     }
+   
     // If person doesnt exist
     persondb.persons.push(newPerson);
     // Save file
@@ -296,3 +297,11 @@ function formatPhoneNumber(input) {
     // Return the formatted phone number
     return areaCode + '-' + firstThree + ' ' + lastFour;
 }
+
+jsonfile.readFile(file, function(err, obj) {//TODO:testar!!!
+    if (err) {
+        console.log(err);
+    } else {        
+        persondb = obj;
+    }
+});

@@ -3,23 +3,23 @@
     {
       "firstName": "Tony",
       "surName": "Stark",
-      "address": "",
+      "address": "Malibu Point",
       "socialSecurityNumber": "1",
-      "phone": "070-1234561"
+      "phone": "070-123 4561"
     },
     {
       "firstName": "Peter",
       "surName": "Parker",
       "address": "",
       "socialSecurityNumber": "2",
-      "phone": "070-1234565"
+      "phone": "070-123 4565"
     },
     {
       "firstName": "Clark",
       "surName": "Kent",
-      "address": "",
+      "address": "Clinton Street",
       "socialSecurityNumber": "3",
-      "phone": "070-1234561"
+      "phone": "070-123 4561"
     },
     {
       "firstName": "Bruce",
@@ -59,23 +59,23 @@
     {
       "firstName": "Otto",
       "surName": "Gunther Octavius",
-      "address": "",
+      "address": "New York City",
       "socialSecurityNumber": "10",
-      "phone": ""
+      "phone": "072-669 8423"
     },
     {
       "firstName": "Lasse",
       "surName": "Larsson",
       "address": "Vasavägen",
       "socialSecurityNumber": "99",
-      "phone": "073-1234567"
+      "phone": "073-123 4567"
     },
     {
       "firstName": "Nils",
       "surName": "Svensson",
       "address": "Lagerlundavägen",
       "socialSecurityNumber": "16",
-      "phone": "073-9876543"
+      "phone": "073-987 6543"
     },
     {
       "firstName": "Bruce",
@@ -87,9 +87,9 @@
     {
       "firstName": "Hasse",
       "surName": "Svensson",
-      "address": "Fåglvägen 10",
+      "address": "Fåglvägen 12",
       "socialSecurityNumber": "5508081234",
-      "phone": "076-1234567"
+      "phone": "076-123 4567"
     },
     {
       "firstName": "Nils",
@@ -101,7 +101,7 @@
     {
       "firstName": "Test",
       "surName": "Testsson",
-      "address": "Fågelgatan 13",
+      "address": "Fågelgatan 32",
       "socialSecurityNumber": "0303031234",
       "phone": "075-565 6565"
     },
@@ -111,6 +111,41 @@
       "address": "Strandvägen 10",
       "socialSecurityNumber": "6201011213",
       "phone": "079-654 2389"
+    },
+    {
+      "firstName": "Anders",
+      "surName": "Andersson",
+      "address": "Drottninggatan 5",
+      "socialSecurityNumber": "7505051818",
+      "phone": "070-589 2456"
+    },
+    {
+      "firstName": "Hans ",
+      "surName": "Hansson",
+      "address": "Bagaregatan 1",
+      "socialSecurityNumber": "8505064567",
+      "phone": "079-752 6924"
+    },
+    {
+      "firstName": "John",
+      "surName": "Johnsson",
+      "address": "Båtvägen 5",
+      "socialSecurityNumber": "199005165623",
+      "phone": "070-589 2456"
+    },
+    {
+      "firstName": "Hasse",
+      "surName": "Andersson",
+      "address": "Höjdgatan 44",
+      "socialSecurityNumber": "199210125478",
+      "phone": "079-593 2578"
+    },
+    {
+      "firstName": "Gustav",
+      "surName": "Karlsson",
+      "address": "Borggatan 14",
+      "socialSecurityNumber": "193205165746",
+      "phone": "075-982 4569"
     }
   ]
 }
