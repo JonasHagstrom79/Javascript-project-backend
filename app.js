@@ -9,8 +9,6 @@ var jsonfile = require('jsonfile');
 const app = express();
 app.use(cors());  // CORS-enabled for all origins!
 
-
-//***** */ //TODO:check
 // Tell express to use a express.json, a built-in middleware in Express,
 // that parses incoming requests with JSON payloads.
 app.use(express.json());
@@ -20,7 +18,6 @@ app.use(express.json());
 // The extended option is required. true is the default value and allows 
 // for a JSON-like experience with URL-encoded.
 app.use(express.urlencoded({ extended: true }));
-//***** */ //TODO:check
 
 // Define the port the server will accept connections on
 /*global process*/
@@ -33,7 +30,7 @@ app.listen(port, function() {
 });
 
 // Read from file
-const file = "person-db.json";
+let file = "person-db.json";
 
 // Declaring variables
 let persondb;
@@ -54,9 +51,11 @@ jsonfile.readFile(file, function(err, obj) {
  * Save JSON file
  */
 function saveFile() {
+
     jsonfile.writeFile(file, persondb, function(err) {
         console.log(err);
     });
+
 };
 
 /**
@@ -93,36 +92,33 @@ app.get('/api/persons/:socialSecurityNumber', function(req, res) {
     // Init JSON object    
     let send = {};
 
-    // Get the persons from database  
-    for (person of persondb.persons) { //TODO:Person doesnt get sent to frontend
-        //if (":"+person.socialSecurityNumber == socialSecurityNumber) { //TODO:check person-db.json
-        if (":"+person.socialSecurityNumber == socialSecurityNumber) {
-            
+    // Get the person from database  
+    for (person of persondb.persons) {         
+        if (person.socialSecurityNumber == socialSecurityNumber) {
+            // Sends the person and breaks the loop
             send = person;
             break;
             
         } 
-        // else {
+        else {
+            // If not found send an empy object
+            send;
             
-        // //     send;
-        //     console.log(send)
-        //     console.log("else-statement")
-        // };
+        };
     };
-    //console.log(send)
-    console.dir("else-statement " +send.firstName)
+    
     res.send(send);
     
 });
 
 // Add a person
 app.post('/api/persons', function(req, res) { 
-
+    
     // Get the data from the inputfields
-    var firstName = req.body.firstName;
-    var surName = req.body.surName;
-    var socialSecurityNumber = req.body.socialSecurityNumber;
-    var phone = req.body.phone
+    let firstName = req.body.firstName;
+    let surName = req.body.surName;
+    let socialSecurityNumber = req.body.socialSecurityNumber;
+    let phone = req.body.phone;
 
     // Check if field is empty
     if (!firstName) {
@@ -151,7 +147,7 @@ app.post('/api/persons', function(req, res) {
     // Check for only a-ö chars
     if (containsSpecialChars(firstName)) {
         res.status(403).json(
-            {error: "Only use A-Ö chars"}
+            {error: "Only use A-Ö chars in first name"}
         );
         return res.json();
     };
@@ -159,7 +155,7 @@ app.post('/api/persons', function(req, res) {
     // Check for only a-ö chars
     if (containsSpecialChars(surName)) {
         res.status(403).json(
-            {error: "Only use A-Ö chars"}
+            {error: "Only use A-Ö chars in sur name"}
         );
         return res.json();
     };
@@ -167,7 +163,7 @@ app.post('/api/persons', function(req, res) {
     // Check for only digits
     if (!containsOnlyNumbers(socialSecurityNumber)) {
         res.status(403).json(
-            {error: "Only use 0-9 digits, example: 195606129876"}
+            {error: "Only use 0-9 digits, example: 5606129876"}
         );
         return res.json();
     };
@@ -176,7 +172,7 @@ app.post('/api/persons', function(req, res) {
     phone = formatPhoneNumber(phone);
 
     // Create a new Person
-    var newPerson = {
+    let newPerson = {
         firstName, 
         surName, 
         address : req.body.address,
@@ -202,6 +198,7 @@ app.post('/api/persons', function(req, res) {
     persondb.persons.push(newPerson);
     // Save file
     saveFile();
+    
     // Send status and return result
     res.status(201).json(newPerson);
     return res.json();   
@@ -211,23 +208,71 @@ app.post('/api/persons', function(req, res) {
 // Update a person
 app.put('/api/persons/:socialSecurityNumber', function(req, res) {
 
+    
     // Gets social security number
-    var socialSecurityNumber = req.params.socialSecurityNumber    
+    let socialSecurityNumber = req.params.socialSecurityNumber    
     
     for (person of persondb.persons) {
 
         // If in person-db
         if (person.socialSecurityNumber == socialSecurityNumber) {           
            
+            let firstName = req.body.firstName;
+            let surName = req.body.surName;            
+            let phone = req.body.phone;
+            let address = req.body.address;
+
+             // Check if field is empty
+            if (!firstName) {
+                res.status(403).json(
+                    {error: "Please insert first name"}
+                );
+                return res.json();
+            }
+
+            // Check if field is empty
+            if (!surName) {
+                res.status(403).json(
+                    {error: "Please insert sur name"}
+                );
+                return res.json();
+            }
+
+            // Check if field is empty
+            if (!socialSecurityNumber) {
+                res.status(403).json(
+                    {error: "Please insert social security number"}
+                );
+                return res.json();
+            }
+
+            // Check for only a-ö chars
+            if (containsSpecialChars(firstName)) {
+                res.status(403).json(
+                    {error: "Only use A-Ö chars in first name"}
+                );
+                return res.json();
+            };
+
+            // Check for only a-ö chars
+            if (containsSpecialChars(surName)) {
+                res.status(403).json(
+                    {error: "Only use A-Ö chars in sur name"}
+                );
+                return res.json();
+            };           
+
+            // Formats the phone number
+            phone = formatPhoneNumber(phone);
+
             // Update the fields if necessary
-            person.firstName = req.body.firstName,
-            person.surName = req.body.surName,
-            person.address = req.body.address,
-            person.socialSecurityNumber = req.body.socialSecurityNumber,
-            person.phone = req.body.phone
+            person.firstName = firstName,
+            person.surName = surName,
+            person.address = address,            
+            person.phone = phone
                       
             //Saves the file
-            saveFile(); 
+            saveFile();            
 
             // Return person
             res.status(200).json(person);
@@ -247,7 +292,7 @@ app.put('/api/persons/:socialSecurityNumber', function(req, res) {
 
 // Delete person
 app.delete('/api/persons/:socialSecurityNumber', function(req, res) {
-
+    
     // Get the socialSecurityNumber for the person to be deleted
     var socialSecurityNumber = req.params.socialSecurityNumber;
     
@@ -264,6 +309,7 @@ app.delete('/api/persons/:socialSecurityNumber', function(req, res) {
             persons.splice(i, 1);
             // Save changes to file
             saveFile();
+            
             // Send status and return result
             res.status(200).json(person);
             return res.json();
@@ -273,7 +319,7 @@ app.delete('/api/persons/:socialSecurityNumber', function(req, res) {
     // If not in person-db return error msg 404 
     res.status(404).json(
         {error : "Person doesnt exist"} 
-    );
+    );    
 
     return res.json();
 
@@ -297,11 +343,3 @@ function formatPhoneNumber(input) {
     // Return the formatted phone number
     return areaCode + '-' + firstThree + ' ' + lastFour;
 }
-
-jsonfile.readFile(file, function(err, obj) {//TODO:testar!!!
-    if (err) {
-        console.log(err);
-    } else {        
-        persondb = obj;
-    }
-});
