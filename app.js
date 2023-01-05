@@ -3,7 +3,7 @@
 /*eslint no-undef: "error"*/
 const express = require('express');
 const cors = require('cors');
-var jsonfile = require('jsonfile');
+let jsonfile = require('jsonfile');
 
 // Create an Express application
 const app = express();
@@ -63,8 +63,10 @@ function saveFile() {
  * @param {*} str string to check
  * @returns boolean
  */
-function containsSpecialChars(str) {    
-    return /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(str);
+function containsSpecialCharsOrDigits(str) {
+    
+    return /\d|[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(str);
+
 }
 
 /**
@@ -73,7 +75,9 @@ function containsSpecialChars(str) {
  * @returns boolean
  */
 function containsOnlyNumbers(str) {
+
     return /^\d+$/.test(str);
+
 }
 
 // Returns all persons
@@ -120,7 +124,7 @@ app.post('/api/persons', function(req, res) {
     let socialSecurityNumber = req.body.socialSecurityNumber;
     let phone = req.body.phone;
 
-    // Check if field is empty
+    // Check if field firstName is empty
     if (!firstName) {
         res.status(403).json(
             {error: "Please insert first name"}
@@ -128,7 +132,7 @@ app.post('/api/persons', function(req, res) {
         return res.json();
     }
 
-    // Check if field is empty
+    // Check if field surName is empty
     if (!surName) {
         res.status(403).json(
             {error: "Please insert sur name"}
@@ -136,7 +140,7 @@ app.post('/api/persons', function(req, res) {
         return res.json();
     }
 
-    // Check if field is empty
+    // Check if field socialSecurityNumber is empty
     if (!socialSecurityNumber) {
         res.status(403).json(
             {error: "Please insert social security number"}
@@ -144,23 +148,23 @@ app.post('/api/persons', function(req, res) {
         return res.json();
     }
 
-    // Check for only a-ö chars
-    if (containsSpecialChars(firstName)) {
+    // Check firstName for only a-ö chars
+    if (containsSpecialCharsOrDigits(firstName)) {
         res.status(403).json(
             {error: "Only use A-Ö chars in first name"}
         );
         return res.json();
-    };
+    };    
 
-    // Check for only a-ö chars
-    if (containsSpecialChars(surName)) {
+    // Check surName for only a-ö chars
+    if (containsSpecialCharsOrDigits(surName)) {
         res.status(403).json(
             {error: "Only use A-Ö chars in sur name"}
         );
         return res.json();
     };
 
-    // Check for only digits
+    // Check socialSecurityNumber for only digits
     if (!containsOnlyNumbers(socialSecurityNumber)) {
         res.status(403).json(
             {error: "Only use 0-9 digits, example: 5606129876"}
@@ -247,7 +251,7 @@ app.put('/api/persons/:socialSecurityNumber', function(req, res) {
             }
 
             // Check for only a-ö chars
-            if (containsSpecialChars(firstName)) {
+            if (containsSpecialCharsOrDigits(firstName)) {
                 res.status(403).json(
                     {error: "Only use A-Ö chars in first name"}
                 );
@@ -255,7 +259,7 @@ app.put('/api/persons/:socialSecurityNumber', function(req, res) {
             };
 
             // Check for only a-ö chars
-            if (containsSpecialChars(surName)) {
+            if (containsSpecialCharsOrDigits(surName)) {
                 res.status(403).json(
                     {error: "Only use A-Ö chars in sur name"}
                 );
@@ -294,12 +298,12 @@ app.put('/api/persons/:socialSecurityNumber', function(req, res) {
 app.delete('/api/persons/:socialSecurityNumber', function(req, res) {
     
     // Get the socialSecurityNumber for the person to be deleted
-    var socialSecurityNumber = req.params.socialSecurityNumber;
+    let socialSecurityNumber = req.params.socialSecurityNumber;
     
     // Get the persons from database
-    var persons = persondb.persons
+    let persons = persondb.persons
     
-    for (var i=0; i<persons.length; i++) {
+    for (let i=0; i<persons.length; i++) {
         
         // If person is found
         if(persons[i].socialSecurityNumber == socialSecurityNumber) {
