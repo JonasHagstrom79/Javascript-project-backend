@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/b2f17e4d-a387-48db-9ea6-85fba1ca2643/AppServices/subscriptions/b2f17e4d-a387-48db-9ea6-85fba1ca2643/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/caha1906-project-backend-dt190g-ht22",
+    "appService.deploySubpath": "."
+}
